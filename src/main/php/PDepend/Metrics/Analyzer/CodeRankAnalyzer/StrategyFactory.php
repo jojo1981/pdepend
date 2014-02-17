@@ -111,11 +111,7 @@ class StrategyFactory
 
         // Prepare identifier
         $name = ucfirst(strtolower($strategyName));
-
-        $fileName  = "PDepend/Metrics/Analyzer/CodeRankAnalyzer/{$name}Strategy.php";
         $className = "PDepend\\Metrics\\Analyzer\\CodeRankAnalyzer\\{$name}Strategy";
-
-        include_once $fileName;
 
         return new $className();
     }
