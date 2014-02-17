@@ -48,7 +48,28 @@ if (strpos('@php_bin@', '@php_bin') === 0) {
     set_include_path('.' . PATH_SEPARATOR . dirname(__FILE__) . '/../main/php');
 }
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+$found = false;
+
+$files = array(
+  __DIR__ . '/../../vendor/autoload.php',
+  __DIR__ . '/../../../../autoload.php'
+);
+
+foreach ($files as $file) {
+    if (file_exists($file)) {
+        require $file;
+        $found = true;
+        break;
+    }
+}
+
+if (!$found) {
+    die(
+      'You need to set up the project dependencies using the following commands:' . PHP_EOL .
+      'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
+      'php composer.phar install' . PHP_EOL
+    );
+}
 
 // Allow as much memory as possible by default
 if (extension_loaded('suhosin') && is_numeric(ini_get('suhosin.memory_limit'))) {
